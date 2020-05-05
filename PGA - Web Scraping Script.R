@@ -47,6 +47,7 @@ for (i in Categories$Link)
     
     Statistics <- rbind(na.omit(Statistics), Statistics_i)
 }
+Statistics <- sqldf("SELECT DISTINCT * FROM Statistics")
 
 # **********************
 # SET PARAMETERS
@@ -115,6 +116,9 @@ for (stat_no in stat_num)
         
         # 1.6) Append to Tournament List
         Tournaments <- rbind(na.omit(Tournaments), tournament_list)
+        
+        # 1.7) Distinct Tournament List
+        Tournaments <- sqldf("SELECT DISTINCT * FROM Tournaments")
         
         
         # -------------
