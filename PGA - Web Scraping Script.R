@@ -5,7 +5,7 @@
 # R PACKAGES
 # ---------------------
 if(!require(pacman))install.packages("pacman")
-pacman::p_load('rvest', 'stringi', 'dplyr', 'tidyr', 'measurements', 'reshape2', 'sqldf')
+pacman::p_load('rvest', 'stringi', 'dplyr', 'tidyr', 'measurements', 'reshape2')
 
 # ----------------------
 # GET HTML LINKS
@@ -47,7 +47,7 @@ for (i in Categories$Link)
     
     Statistics <- rbind(na.omit(Statistics), Statistics_i)
 }
-Statistics <- sqldf("SELECT DISTINCT * FROM Statistics")
+Statistics <- unique(Statistics)
 
 # **********************
 # SET PARAMETERS
@@ -118,7 +118,7 @@ for (stat_no in stat_num)
         Tournaments <- rbind(na.omit(Tournaments), tournament_list)
         
         # 1.7) Distinct Tournament List
-        Tournaments <- sqldf("SELECT DISTINCT * FROM Tournaments")
+        Tournaments <- unique(Tournaments)
         
         
         # -------------
@@ -167,9 +167,6 @@ for (stat_no in stat_num)
             
             cat("\n |--- Success", "\n")
         }
-        
-        # Select Distinct Tournaments
-        Tournaments <- sqldf("SELECT DISTINCT season, tournament, name FROM Tournaments")
     }
 }
 
