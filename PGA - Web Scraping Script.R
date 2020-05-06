@@ -175,13 +175,21 @@ for (stat_no in stat_num)
 
 
 # ======================
-# CLEAN DATASET (WIP)
+# CLEAN DATASET
 # ======================
-Master_Clean <- Master %>% slice(2:n()) #%>%
+Master_Clean <- Master %>% slice(2:n()) %>%
                            # Convert " '
+                           mutate(value = gsub("\"", "", value)) %>% 
+                           separate(value, c("value", "inches"), "' ", convert = TRUE) %>%
+                           mutate(value = ifelse(is.na(inches)==TRUE, value, as.numeric(value) + conv_unit(as.numeric(inches), "inch", "ft"))) %>%
                            # Remove Ties
+                           mutate(value = gsub("T", "", value)) %>%
                            # Remove Letters
+                           mutate(value = gsub("[A-Z]", NA, value)) %>%
                            # Convert to Numeric
+                           mutate(value = as.numeric(value))
+
+Master_Clean <- Master_Clean[, 1:7]
 
 
 # ======================
