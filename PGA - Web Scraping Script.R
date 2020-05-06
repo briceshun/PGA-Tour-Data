@@ -5,7 +5,7 @@
 # R PACKAGES
 # ---------------------
 if(!require(pacman))install.packages("pacman")
-pacman::p_load('rvest', 'stringi', 'dplyr', 'reshape2', 'sqldf')
+pacman::p_load('rvest', 'stringi', 'dplyr', 'tidyr', 'measurements', 'reshape2', 'sqldf')
 
 # ----------------------
 # GET HTML LINKS
