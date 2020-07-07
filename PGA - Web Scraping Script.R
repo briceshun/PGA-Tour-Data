@@ -132,7 +132,11 @@ for (stat_no in stat_num)
                 "|---", stat_tour_url, "\n")
             
             # 2.2) Read the html
-            webpage <- read_html(stat_tour_url)
+            res <- try(webpage <- read_html(stat_tour_url))
+            if(inherits(res, "try-error"))
+            { cat("|--- Error Reading HTML \n")
+              next
+            }
             
             # 2.3) Find all the tables in the data
             tbls <- html_nodes(webpage, "table")
@@ -155,7 +159,11 @@ for (stat_no in stat_num)
             df2 <- data.frame(t(df))
             
             # 2.7) Reshape to Long
-            df3 <- melt(df2, id.vars = c("PLAYER.NAME") , measure.vars = names(df2)[c(1, 2, 5:length(names(df2)))])
+            res <- try(df3 <- melt(df2, id.vars = c("PLAYER.NAME") , measure.vars = names(df2)[c(1, 2, 5:length(names(df2)))]))
+            {   # Next tournament_label if error
+                cat("|--- No Data \n")
+                next
+            }
             df3$Season     <- year
             df3$Tournament <- tournament_list$tournament[i] #tournament_list$name[i]
             df3$Category   <- Statistics$Category[Statistics$Link==stat_no]
